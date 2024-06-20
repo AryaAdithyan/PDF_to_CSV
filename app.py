@@ -48,7 +48,7 @@ def main():
     if pdf_source == "Upload PDF":
         uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
         if uploaded_file is not None:
-            pdf_stream = uploaded_file
+            pdf_stream = BytesIO(uploaded_file.read())
     else:
         pdf_url = st.text_input("Enter PDF URL:")
         if pdf_url:
