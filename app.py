@@ -2,9 +2,8 @@ import streamlit as st
 import fitz  # PyMuPDF
 import nltk
 import csv
-import os
 import requests
-from io import BytesIO
+from io import StringIO, BytesIO
 
 # Ensure the punkt tokenizer is available
 nltk.download('punkt')
@@ -30,12 +29,13 @@ def split_into_sentences(text):
 
 def write_sentences_to_csv(sentences):
     # Write sentences to a CSV in-memory and return as bytes
-    output = BytesIO()
+    output = StringIO()
     writer = csv.writer(output)
     for sentence in sentences:
         writer.writerow([sentence])
     output.seek(0)
-    return output
+    # Convert StringIO to bytes
+    return output.getvalue().encode('utf-8')
 
 def main():
     st.title("PDF Sentence Extractor")
@@ -80,3 +80,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
