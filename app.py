@@ -4,7 +4,7 @@ import nltk
 import csv
 import os
 import requests
-from io import StringIO, BytesIO
+from io import BytesIO
 
 # Ensure the punkt tokenizer is available
 nltk.download('punkt')
@@ -29,8 +29,8 @@ def split_into_sentences(text):
     return sentences
 
 def write_sentences_to_csv(sentences):
-    # Write sentences to a CSV in-memory
-    output = StringIO()
+    # Write sentences to a CSV in-memory and return as bytes
+    output = BytesIO()
     writer = csv.writer(output)
     for sentence in sentences:
         writer.writerow([sentence])
@@ -68,12 +68,12 @@ def main():
             sentences = split_into_sentences(text)
 
         # Write sentences to CSV
-        csv_output = write_sentences_to_csv(sentences)
+        csv_data = write_sentences_to_csv(sentences)
 
         # Provide download link for the CSV file
         st.download_button(
             label="Download Sentences as CSV",
-            data=csv_output,
+            data=csv_data,
             file_name="sentences.csv",
             mime="text/csv",
         )
